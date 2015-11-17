@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -18,6 +20,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+
 public class MainActivity extends AppCompatActivity {
     LoginButton loginButton;
     CallbackManager callbackManager;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     ProfileTracker profileTracker;
     Profile profile;
     TextView display_tv;
+    ImageView imageView;
     @Override
     protected void onResume() {
         super.onResume();
@@ -38,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         display_tv = (TextView) findViewById(R.id.display_tv);
+        imageView = (ImageView) findViewById(R.id.profile_image);
         callbackManager = CallbackManager.Factory.create();
+
+        // Access Token
         accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(
@@ -50,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         };
         // If the access token is available already assign it.
         accessToken = AccessToken.getCurrentAccessToken();
-        Log.e("TOKEN",accessToken.getUserId());
 
+        // Profile
         profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(
@@ -61,9 +68,14 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         profile = Profile.getCurrentProfile();
-        Log.e("PROFILE",profile.getName());
+        try {
+            display_tv.setText("You logged in as "+profile.getName());
+            Glide.with(this).load(profile.getProfilePictureUri(120,120)).transform(new CircleTransform(getApplicationContext())).into(imageView);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
 
-        display_tv.setText("You logged in as "+profile.getName());
+        // Login
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("user_friends","public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -71,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 Log.e("RESULT", loginResult.getAccessToken().toString());
             }
-
             @Override
             public void onCancel() {
 
