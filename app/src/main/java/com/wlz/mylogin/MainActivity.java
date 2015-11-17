@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     AccessToken accessToken;
     ProfileTracker profileTracker;
     Profile profile;
+    TextView display_tv;
     @Override
     protected void onResume() {
         super.onResume();
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-
+        display_tv = (TextView) findViewById(R.id.display_tv);
         callbackManager = CallbackManager.Factory.create();
         accessTokenTracker = new AccessTokenTracker() {
             @Override
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         profile = Profile.getCurrentProfile();
         Log.e("PROFILE",profile.getName());
 
-
+        display_tv.setText("You logged in as "+profile.getName());
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("user_friends","public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
