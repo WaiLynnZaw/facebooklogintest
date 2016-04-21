@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,7 +46,14 @@ public class MainActivity extends AppCompatActivity {
         display_tv = (TextView) findViewById(R.id.display_tv);
         imageView = (ImageView) findViewById(R.id.profile_image);
         callbackManager = CallbackManager.Factory.create();
+        Button account_kit = (Button) findViewById(R.id.account_kit_login);
 
+        account_kit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),AccountKitLogin.class));
+            }
+        });
         // Access Token
         accessTokenTracker = new AccessTokenTracker() {
             @Override
