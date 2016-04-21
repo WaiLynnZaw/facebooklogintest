@@ -49,6 +49,18 @@ public class AccountKitLogin extends AppCompatActivity {
                 configurationBuilder.build());
         startActivityForResult(intent, APP_REQUEST_CODE);
     }
+    public void onLoginEmail(final View view) {
+        final Intent intent = new Intent(this, AccountKitActivity.class);
+        AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder =
+                new AccountKitConfiguration.AccountKitConfigurationBuilder(
+                        LoginType.EMAIL,
+                        AccountKitActivity.ResponseType.CODE); // or .ResponseType.TOKEN
+        // ... perform additional configuration ...
+        intent.putExtra(
+                AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
+                configurationBuilder.build());
+        startActivityForResult(intent, APP_REQUEST_CODE);
+    }
     public void onLogout(View view){
         AccountKit.logOut();
     }

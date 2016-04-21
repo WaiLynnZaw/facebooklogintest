@@ -18,6 +18,11 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:text="Login with Email"
+        android:onClick="onLoginEmail"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:text="Log Out"
         android:onClick="onLogout"
         />
