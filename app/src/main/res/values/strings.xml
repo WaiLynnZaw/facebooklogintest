@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">MyLogin</string>
-    <string name="facebook_app_id">1125554500795647</string>
-    <string name="ACCOUNT_KIT_CLIENT_TOKEN">75adb46932f47403a9cfcc7c6029f64f</string>
+    <string name="facebook_app_id"></string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN"></string>
 </resources>
